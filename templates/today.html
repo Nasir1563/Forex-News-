@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Today's News Events</h1>
+<div>
+    <label for="impact">Filter by impact:</label>
+    <select id="impact">
+        <option value="all">All</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+        <option value="holiday">Bank Holidays</option>
+    </select>
+    <label for="currency">Filter by currency:</label>
+    <select id="currency">
+        <option value="all">All</option>
+        {% for currency in currencies %}
+        <option value="{{ currency }}">{{ currency }}</option>
+        {% endfor %}
+    </select>
+</div>
+<div id="news-events">
+    {% for event in news_events %}
+    <div class="news-event {{ event['impact'] }} {{ event['currency'] }} {% if event.next_upcoming %}upcoming{% endif %}">
+        <h2>{{ event['title'] }}</h2>
+        <p>Time: {{ event['time'] }}</p>
+        <p>Actual: {{ event['actual'] }}</p>
+        <p>Forecast: {{ event['forecast'] }}</p>
+        <p>Previous: {{ event['previous'] }}</p>
+        <p>Remaining Time: {{ event['remaining_time'] }}</p>
+        <div class="graph">
+            <a href="{{ event['graph_url'] }}" target="_blank">View Details</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+document.getElementById('currency').addEventListener('change', function() {
+    var selectedCurrency = this.value;
+    console.log("Selected currency:", selectedCurrency);
+    var events = document.getElementsByClassName('news-event');
+    for (var i = 0; i < events.length; i++) {
+        if (selectedCurrency === 'all' || events[i].classList.contains(selectedCurrency)) {
+            events[i].style.display = '';
+        } else {
+            events[i].style.display = 'none';
+        }
+    }
+});
+
+document.getElementById('impact').addEventListener('change', function() {
+    var selectedImpact = this.value;
+    var events = document.getElementsByClassName('news-event');
+    for (var i = 0; i < events.length; i++) {
+        if (selectedImpact === 'all' || events[i].classList.contains(selectedImpact)) {
+            events[i].style.display = '';
+        } else {
+            events[i].style.display = 'none';
+        }
+    }
+});
+</script>
+{% endblock %}

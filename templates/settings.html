@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Settings</h1>
+    <form method="post">
+        <label for="timezone">Timezone:</label>
+        <select name="timezone" id="timezone">
+            {% for timezone in timezones %}
+            <option value="{{ timezone }}" {% if timezone == settings.timezone %}selected{% endif %}>{{ timezone }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="preferred_currencies">Preferred Currencies:</label>
+        <select name="preferred_currencies" id="preferred_currencies" multiple>
+            {% for currency in currencies %}
+            <option value="{{ currency }}" {% if currency in settings.preferred_currencies %}selected{% endif %}>{{ currency }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="impact_filter">Impact Filter:</label>
+        <select name="impact_filter" id="impact_filter">
+            {% for impact in impacts %}
+            <option value="{{ impact }}" {% if impact == settings.impact_filter %}selected{% endif %}>{{ impact }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="Save Settings">
+    </form>
+</div>
+{% endblock %}
+
+{% block styles %}
+<style>
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 5px;
+    }
+
+    label, select, input[type="submit"] {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    select, input[type="submit"] {
+        padding: 5px;
+    }
+</style>
+{% endblock %}

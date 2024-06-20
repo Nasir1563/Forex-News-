@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Forex News Events</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('today') }}">Today's News</a></li>
+            <li><a href="{{ url_for('week') }}">This Week</a></li>
+            <li><a href="{{ url_for('month') }}">This Month</a></li>
+            <li><a href="{{ url_for('settings') }}">Settings</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        {% block content %}
+        <h1>Welcome to Forex News Events</h1>
+        {% endblock %}
+    </div>
+</body>
+</html>
