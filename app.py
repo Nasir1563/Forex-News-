@@ -2,10 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import requests
 from datetime import datetime
 import pytz
-import os
+import os 
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+
 
 @app.route('/')
 def today():
@@ -70,7 +70,7 @@ def get_news_events(filter_past_events, settings):
                     'currency': currency,
                     'remaining_time': calculate_remaining_time(event.get('date')),
                     'graph_url': event.get('url', '#'),  # Use 'url' field for graph URL
-                    'event_time': event_time
+                    'event_time': event_time.strftime('%Y-%m-%dT%H:%M:%S')  # ISO format for FullCalendar
                 }
                 if currency in settings['preferred_currencies'] and (settings['impact_filter'] == 'all' or formatted_event['impact'] == settings['impact_filter']):
                     formatted_events.append(formatted_event)
@@ -95,6 +95,7 @@ def calculate_remaining_time(event_time):
     hours, remainder = divmod(remaining_time.seconds, 3600)
     minutes, seconds = divmod(remainder, 60)
     return f'{days}d {hours}h {minutes}m {seconds}s'
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
